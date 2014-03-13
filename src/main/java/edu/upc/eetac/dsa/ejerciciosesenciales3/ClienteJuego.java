@@ -40,11 +40,11 @@ public class ClienteJuego {
 		
 		String jugar=null;
 		Scanner inconsola =new Scanner(System.in);//leeer de pantalla
-		boolean jugando=false;
+		boolean jugando=true;
 		
 		jugar=inconsola.next();
-		if(jugar=="si")
-			jugando=true;
+		if(jugar=="no")
+			jugando=false;
 		else{
 			out.close();
 			in.close();
@@ -64,36 +64,41 @@ public class ClienteJuego {
 			//Petición para jugar
 			UserOutput="PLAY "+nombre;
 			out.println(UserOutput);//Enviamos al servidor.
-			
-			while((UserInput=in.readLine())!=null){
-				peticion=UserInput.split(" ");
-				if(peticion[0]=="WAIT")
-					System.out.println("Esperando que hable el servidor...");
-				if(peticion[0]=="YOUR"){
-					System.out.println("=============================================================================================");
-					System.out.println("=\tIntroduce las monedas y tu apuesta separados con espacio\t=");
-					System.out.println("=============================================================================================");
-					//Leemos lo que escribe en consola
-					consola=inconsola.next();
-					leer=consola.split(" ");
-					monedas=leer[0];
-					apuesta=leer[1];
-					//Construimos y enviamos el mensaje al Servidor.
-					UserOutput= " MY BET "+monedas+" "+apuesta;
-					out.println(UserOutput);
-				}if(peticion[0]=="VERSUS"){
-					System.out.println("=============================================================================================");
-					System.out.println("=\t Su contrincante será: "+peticion[1]+"\t=");	
-					System.out.println("=============================================================================================");
-				}if(peticion[0]=="BET"){
-					System.out.println("=============================================================================================");
-					System.out.println("=\t "+UserInput+"\t=");	
-					System.out.println("=============================================================================================");
-				}if(peticion[0]=="WINNER"){
-					System.out.println("=============================================================================================");
-					System.out.println("=\t "+UserInput+"\t=");	
-					System.out.println("=============================================================================================");
-					jugando=false;
+			System.out.println("Hemos enviado correctamente elPLAY");
+						
+			while( (UserInput=in.readLine()) != null ){
+				System.out.println("Leemos del buffer.");
+				if(in.read()!=-1){
+					System.out.println("Hay chicha en el buffer.");
+					peticion=UserInput.split(" "); 
+					if(peticion[0]=="WAIT")
+						System.out.println("Esperando que hable el servidor...");
+					if(peticion[0]=="YOUR"){
+						System.out.println("=============================================================================================");
+						System.out.println("=\tIntroduce las monedas y tu apuesta separados con espacio\t=");
+						System.out.println("=============================================================================================");
+						//Leemos lo que escribe en consola
+						consola=inconsola.next();
+						leer=consola.split(" ");
+						monedas=leer[0];
+						apuesta=leer[1];
+						//Construimos y enviamos el mensaje al Servidor.
+						UserOutput= " MY BET "+monedas+" "+apuesta;
+						out.println(UserOutput);
+					}if(peticion[0]=="VERSUS"){
+						System.out.println("=============================================================================================");
+						System.out.println("=\t Su contrincante será: "+peticion[1]+"\t=");	
+						System.out.println("=============================================================================================");
+					}if(peticion[0]=="BET"){
+						System.out.println("=============================================================================================");
+						System.out.println("=\t "+UserInput+"\t=");	
+						System.out.println("=============================================================================================");
+					}if(peticion[0]=="WINNER"){
+						System.out.println("=============================================================================================");
+						System.out.println("=\t "+UserInput+"\t=");	
+						System.out.println("=============================================================================================");
+						jugando=false;
+					}
 				}
 			}
 		}
